@@ -20,6 +20,7 @@ dependencies {
 	testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:*"
 */	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile("commons-io:commons-io:2.6")
 	compile("org.apache.poi:poi:3.9")
 	compile("org.apache.poi:poi-ooxml:3.9")
 	compile("org.apache.poi:poi-ooxml-schemas:3.9")

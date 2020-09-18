@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -54,6 +55,8 @@ public class TradeServiceImpl implements TradeService{
 			int glCodeDescColumn = Integer.parseInt(request.getParameter("glCodeDescColumn"));
 			int openingBalanceColumn = Integer.parseInt(request.getParameter("openingBalanceColumn"));
 			int closingBalanceColumn = Integer.parseInt(request.getParameter("closingBalanceColumn"));
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
 			Workbook workbook = new XSSFWorkbook(multiPartFile.getInputStream());
 
 			Sheet sheet = workbook.getSheetAt(0);
@@ -100,12 +103,18 @@ public class TradeServiceImpl implements TradeService{
 				}
 			}
 			tradeMaster.setLatest(true);
-			tradeMaster.setMonth(1);
-			tradeMaster.setYear(2020);
+			tradeMaster.setMonth(month);
+			tradeMaster.setYear(year);
 			tradeMaster.setTradeType(1);
 			tradeMaster.setUploadedDateTime(new Date());
+			
+			
+			List<TradeMaster> tradeMasterList = tradeMasterRepository.findByYearAndMonth(year, month);
+			if(tradeMasterList.size()>0) {
+				tradeMasterList.forEach(tm->tm.setLatest(false));
+				tradeMasterRepository.saveAll((tradeMasterList));
+			}
 			tradeMasterRepository.save(tradeMaster);
-			//tradeRepository.saveAll(tradeList);
 		}catch(Exception e) {
 			throw e;
 		}
@@ -115,7 +124,7 @@ public class TradeServiceImpl implements TradeService{
 	private void savePhysicalFile(MultipartFile multiPartFile) throws IOException {
 		try {
 			byte[] bytes = multiPartFile.getBytes();
-			String filePath=UPLOADED_FOLDER + multiPartFile.getOriginalFilename();
+			String filePath=UPLOADED_FOLDER + FilenameUtils.getBaseName(multiPartFile.getOriginalFilename())+new Date().getTime()+"."+FilenameUtils.getExtension(multiPartFile.getOriginalFilename());;
 			Path path = Paths.get(filePath);
 			Files.write(path, bytes);	
 		}catch(Exception e) {
