@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "bb94777a-ba73-4ecc-a4a9-baf9ddcb91cd",
+		"name": "Account",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/tradeFile/upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/ProjectV/TB 07.08.2020..XLSX"
+						},
+						{
+							"key": "rowStartFrom",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "lastRow",
+							"value": "1174",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "glCodeColumn",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "glCodeDescColumn",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "openingBalanceColumn",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "closingBalanceColumn",
+							"value": "7",
+							"type": "text"
+						},
+						{
+							"key": "month",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "year",
+							"value": "2020",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/tradeFile/upload",
+				"description": "Request"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
