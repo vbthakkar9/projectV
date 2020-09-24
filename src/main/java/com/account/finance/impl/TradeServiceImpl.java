@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -131,6 +132,17 @@ public class TradeServiceImpl implements TradeService{
 			throw e;
 		}
 		
+	}
+	
+	public TradeMaster getTradeDetails(HttpServletRequest request) throws Exception{
+		try {
+			int month = Integer.parseInt(request.getParameter("month"));
+			int year = Integer.parseInt(request.getParameter("year"));
+			Optional<TradeMaster> tradeMasterList = tradeMasterRepository.findByYearAndMonth(year, month).stream().filter(x->x.isLatest()).findFirst();
+			return  tradeMasterList.isPresent()?tradeMasterList.get():null;
+		}catch(Exception e) {
+			throw e;
+		}
 	}
 	
 }
